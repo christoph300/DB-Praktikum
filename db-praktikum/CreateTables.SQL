@@ -9,10 +9,10 @@ CREATE TABLE Produkt(
 )
 -- Spezialisierung Buch
 CREATE TABLE Buch(
-                    PNr VARCHAR(50) PRIMARY KEY
+                    PNr VARCHAR(50) PRIMARY KEY,
                         REFERENCES Produkt(PNr)
                         ON DELETE CASCADE
-                        ON UPDATE CASCADE
+                        ON UPDATE CASCADE,
                     ISBN VARCHAR(20) NOT NULL,
                     Erscheinungsdatum DATE,
                     Seitenzahl INT
@@ -36,17 +36,17 @@ CREATE TABLE Verlag(
                     PRIMARY KEY (PNr, Verlag)
 )
 -- Spezialisierung Musik-CD
-CREATE TABLE Musik-CD(
-                    PNr VARCHAR(50) PRIMARY KEY
+CREATE TABLE MusikCD(
+                    PNr VARCHAR(50) PRIMARY KEY,
                         REFERENCES Produkt(PNr)
                         ON DELETE CASCADE
-                        ON UPDATE CASCADE
-                    Erscheinungsdatum DATE,
+                        ON UPDATE CASCADE,
+                    Erscheinungsdatum DATE
 )
 -- Künstler-Tabelle für die Beziehung zwischen Musik-CD und Künstler
 CREATE TABLE Kuenstler(
                     PNr VARCHAR(50),
-                        REFERENCES Musik-CD(PNr)
+                        REFERENCES MusikCD(PNr)
                         ON DELETE CASCADE
                         ON UPDATE CASCADE,  
                     Name VARCHAR(255) NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE Kuenstler(
 -- Label-Tabelle für die Beziehung zwischen Musik-CD und Label
 CREATE TABLE Label(
                     PNr VARCHAR(50),
-                        REFERENCES Musik-CD(PNr)
+                        REFERENCES MusikCD(PNr)
                         ON DELETE CASCADE
                         ON UPDATE CASCADE,  
                     Labelname VARCHAR(255) NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE Label(
 -- Song-Tabelle für die Beziehung zwischen Musik-CD und Song
 CREATE TABLE Song(
                     PNr VARCHAR(50),
-                        REFERENCES Musik-CD(PNr)
+                        REFERENCES MusikCD(PNr)
                         ON DELETE CASCADE
                         ON UPDATE CASCADE,  
                     Songtitel VARCHAR(255) NOT NULL,
@@ -72,13 +72,13 @@ CREATE TABLE Song(
 )
 -- Spezialisierung DVD
 CREATE TABLE DVD(
-                    PNr VARCHAR(50) PRIMARY KEY
+                    PNr VARCHAR(50) PRIMARY KEY,
                         REFERENCES Produkt(PNr)
                         ON DELETE CASCADE
-                        ON UPDATE CASCADE
+                        ON UPDATE CASCADE,
                     Format VARCHAR(50),
                     Laufzeit INT,
-                    Region-Code VARCHAR(10)
+                    RegionCode VARCHAR(10)
 )
 -- Actor-Tabelle für die Beziehung zwischen DVD und actor
 CREATE TABLE Actor(
@@ -206,4 +206,21 @@ CREATE TABLE produkt_aehnlich(
                     PRIMARY KEY (PNr1, PNr2)
 )
 
+CREATE TABLE ErrorDaten(
+                    ErrorID SERIAL PRIMARY KEY,
+                    EntityName VARCHAR(255),
+                    ErrorAttribute VARCHAR(255),
+                    Fehlerbeschreibung TEXT NOT NULL,
+                    Fehlerklasse VARCHAR(255)
+                     
+)
+
+CREATE INDEX IF NOT EXISTS idx_produkt_pnr ON Produkt(PNr);
+CREATE INDEX IF NOT EXISTS idx_buch_pnr ON Buch(PNr);
+CREATE INDEX IF NOT EXISTS idx_musikcd_pnr ON MusikCD(PNr);
+CREATE INDEX IF NOT EXISTS idx_dvd_pnr ON DVD(PNr);
+CREATE INDEX IF NOT EXISTS idx_kategorie_katid ON Kategorie(KatID);
+CREATE INDEX IF NOT EXISTS idx_filiale_filialid ON Filiale(FilialID);
+CREATE INDEX IF NOT EXISTS idx_kunde_username ON Kunde(Username);
+CREATE INDEX IF NOT EXISTS idx_kauf_kaufid ON Kauf(KaufID);
 
