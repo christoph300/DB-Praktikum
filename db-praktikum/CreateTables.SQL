@@ -132,7 +132,8 @@ CREATE TABLE ProduktKategorie(
 CREATE TABLE Filiale(
                     FilialID SERIAL PRIMARY KEY,
                     FilialName VARCHAR(255),
-                    Anschrift VARCHAR(255),
+                    Strasse VARCHAR(255),
+                    Plz VARCHAR(10),
 
 )
 -- Tabelle für die Bestände der Produkte in den Filialen
