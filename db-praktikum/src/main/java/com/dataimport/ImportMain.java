@@ -7,13 +7,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.io.File;
+
 
 
 public class ImportMain 
 {
     public static void main(String[] args ){
         try {
-            String url = "jdbc:postgresql://localhost:5432/postgres";
+            String url = "jdbc:postgresql://localhost:5432/meinedb";
             String user = "admin";
             String password = "passwort";
 
@@ -23,6 +25,8 @@ public class ImportMain
             } else {
                 System.err.println("Failed to establish connection to the database!");
             }
+            System.out.println(new File(".").getAbsolutePath());
+
 
             try {
                 initializeDatabase(con, "CreateTables.sql");
@@ -38,7 +42,7 @@ public class ImportMain
     }
 
     public static void initializeDatabase(Connection con, String sqlFile) throws Exception {
-        String sql = new StringBuilder();
+        StringBuilder sql = new StringBuilder();
 
 
         // Lesen der SQL-Datei

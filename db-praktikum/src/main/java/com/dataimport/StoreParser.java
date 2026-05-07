@@ -12,8 +12,8 @@ import org.w3c.dom.NodeList;
 public class StoreParser {
 
     public static void main(Connection con) {
-        parseStores(con, "dresden.xml");
-        parseStores(con, "leipzig_transformed.xml");
+        parseStores(con, "DB-Praktikum/data/dresden.xml");
+        parseStores(con, "DB-Praktikum/data/leipzig_transformed.xml");
     }
 
     public static void parseStores(Connection con, String filePath) {
@@ -81,19 +81,11 @@ public class StoreParser {
                         throw new InvalidAttributeException("Produkt", "title", "Titel darf nicht leer sein");
                     }
 
-                    // Salesrank validieren (optional)
-                    Integer salesrank = null;
+                    int salesrank = 0;
                     if (salesrankStr != null && !salesrankStr.isEmpty()) {
-                        try {
-                            salesrank = Integer.parseInt(salesrankStr);
-                            if (salesrank < 0) {
-                                logError("Produkt", "salesrank", asin, "Salesrank muss positiv sein");
-                                salesrank = null;
-                            }
-                        } catch (NumberFormatException e) {
-                            logError("Produkt", "salesrank", asin, "Salesrank ist keine gültige Zahl");
-                        }
+                        salesrank = Integer.parseInt(salesrankStr);
                     }
+                        
 
                     //Bild wird je nach Filiale anders gespeichert, Dresden über "Details", Leipzig über "Picture"
                     String picture;

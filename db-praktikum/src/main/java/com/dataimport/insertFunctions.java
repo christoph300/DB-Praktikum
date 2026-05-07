@@ -15,7 +15,7 @@ public class insertFunctions {
             pstmt.setString(3, zip);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            logError(con, "Filiale", e);
+            ErrorData.logError(con, "Filiale","UNKNOWN", e);
         }
     }
 
@@ -29,7 +29,7 @@ public class insertFunctions {
             pstmt.setString(4, picture);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            logError(con, "Produkt", e);
+            ErrorData.logError(con, "Produkt","UNKNOWN", e);
         }
     }
 }
