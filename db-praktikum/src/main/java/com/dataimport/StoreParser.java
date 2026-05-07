@@ -115,8 +115,35 @@ public class StoreParser {
         }
     }
 
-    public static void parseBook(Connection con, Element item, String asin) throws InvalidAttributeException {
-        // TODO
+    public static void parseBook(Connection con, Element item, String asin) throws Exception {
+        NodeList bookspecAttribute = item.getElementsByTagName("bookspec");
+        Element bookspec = (Element) bookspecAttribute.item(0);
+
+        //Extract ISBN
+        String isbn = getAttr(bookspec, "isbn", "val");
+        if (isbn == null || isbn.isEmpty()) {
+            throw new MissingAttributeException("Buch", "isbn");
+        }
+        //Extract pages
+        String pagesStr = getTextContent(bookspec, "pages");
+        int pages = 0;
+        if (pagesStr != null && !pagesStr.isEmpty()) {
+            pages = Integer.parseInt(pagesStr);
+        }
+        //Extract publishDate
+        String publishDate = getAttr(bookspec, "publication", "date");
+
+        String edition = getAttr(bookspec, "edition", "val");
+
+        NodeList autoren = bookspec.getElementsByTagName("author");
+
+        NodeList verlaege = bookspec.getElementsByTagName("publisher");
+
+        try {
+            insertStatements.insertBook(con, asin, isbn, pages, publishDate, edition, verlaege, autoren);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     public static void parseMusic(Connection con, Element item, String asin) throws InvalidAttributeException {
@@ -126,4 +153,29 @@ public class StoreParser {
     public static void parseDVD(Connection con, Element item, String asin) throws InvalidAttributeException {
         // TODO
     }
+
+    // Utility function to get text content from a nested element
+      private static String getTextContent(Element parent, String tag) {
+        NodeList nodes = parent.getElementsByTagName(tag);
+        if (nodes.getLength() > 0) {
+            return nodes.item(0).getTextContent();
+        }
+        return null;
+    }
+
+    // Utility function to get an attribute from a nested element
+    private static String getAttr(Element parent, String tag, String attr) {
+        NodeList nodes = parent.getElementsByTagName(tag);
+        if (nodes.getLength() > 0) {
+            Element el = (Element) nodes.item(0);
+            return el.getAttribute(attr);
+        }
+        return null;
+    }
+
+    
+
+
+    
+
 }
