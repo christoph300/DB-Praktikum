@@ -1,4 +1,4 @@
-package com.dataimport;
+package com.dataimport.ErrorHandling;
 
 
 // Fehlende Attribut-Exception, um fehlende Pflichtattribute zu kennzeichnen

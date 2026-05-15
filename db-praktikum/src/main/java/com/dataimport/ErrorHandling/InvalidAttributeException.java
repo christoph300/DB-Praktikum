@@ -1,4 +1,4 @@
-package com.dataimport;
+package com.dataimport.ErrorHandling;
 
 // Ungültige Attribut-Exception, um ungültige Werte zu kennzeichnen
 

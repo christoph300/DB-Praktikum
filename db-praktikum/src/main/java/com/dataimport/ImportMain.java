@@ -8,7 +8,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.io.File;
-
+import com.dataimport.Parser.StoreParser;
 
 
 public class ImportMain 
@@ -35,6 +35,7 @@ public class ImportMain
                 e.printStackTrace();
             }
             StoreParser.main(con);
+            System.out.println("Store data imported successfully.");
             
         } catch (SQLException e) {
             e.printStackTrace();

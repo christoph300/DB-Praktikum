@@ -1,4 +1,4 @@
-package com.dataimport;
+package com.dataimport.ErrorHandling;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
